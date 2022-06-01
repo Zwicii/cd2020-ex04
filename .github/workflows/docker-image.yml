@@ -44,7 +44,7 @@ jobs:
           docker build . --file Dockerfile --tag zwicii/myapp:latest --tag zwicii/myapp:$GIT_SHA
           
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner (low, medium, unknown)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'docker.io/zwicii/myapp:latest'
@@ -54,27 +54,17 @@ jobs:
           vuln-type: 'os,library'
           severity: 'LOW,MEDIUM,UNKNOWN'    
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner (critical, high)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'docker.io/zwicii/myapp:latest'
           format: 'table'
-          exit-code: '1'
+          #exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
-      - name: Run Trivy vulnerability scanner in IaC mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: false
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
-
-      - name: Run Trivy vulnerability scanner in IaC mode
+      - name: Run Trivy vulnerability scanner in IaC mode (low,medium,unknown)
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'config'
@@ -83,6 +73,18 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
           severity: 'LOW,MEDIUM,UNKNOWN'
+
+      - name: Run Trivy vulnerability scanner in IaC mode (critical, high)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+     
 
       - name: push docker container
         run: |
