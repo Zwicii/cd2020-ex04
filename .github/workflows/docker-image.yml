@@ -35,6 +35,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
+      
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          GIT_SHA="$(git rev-parse --short HEAD)" 
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker build . --file Dockerfile --tag zwicii/myapp:latest --tag zwicii/myapp:$GIT_SHA
+          
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -46,12 +54,9 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
-      
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
+      - name: push docker container
         run: |
-          GIT_SHA="$(git rev-parse --short HEAD)" 
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker build . --file Dockerfile --tag zwicii/myapp:latest --tag zwicii/myapp:$GIT_SHA
           docker push zwicii/myapp:latest
           docker push zwicii/myapp:$GIT_SHA
+
