@@ -41,5 +41,5 @@ jobs:
           GIT_SHA="$(git rev-parse --short HEAD)" 
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker build . --file Dockerfile --tag zwicii/myapp:latest --tag zwicii/myapp:$GIT_SHA
-          docker push zwicii/myapp:lastest
+          docker push zwicii/myapp:latest
           docker push zwicii/myapp:$GIT_SHA
