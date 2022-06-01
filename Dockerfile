@@ -10,9 +10,11 @@ WORKDIR /src
 
 # Copy local file `main.go` to the working directory
 COPY /main.go /src
+COPY /main_test.go /src
 
 # List items in the working directory (ls)
 RUN ls
+RUN go test -v
 
 # Build the GO app as myapp binary and move it to /usr/
 RUN go build -o /usr/myapp
