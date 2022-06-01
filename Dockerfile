@@ -14,6 +14,8 @@ COPY /main_test.go /src
 
 # List items in the working directory (ls)
 RUN ls
+RUN go mod init github.com/Zwicii/cd2020-ex04
+RUN go mod tidy
 RUN go test -v
 
 # Build the GO app as myapp binary and move it to /usr/
