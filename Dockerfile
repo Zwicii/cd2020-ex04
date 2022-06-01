@@ -1,4 +1,5 @@
 FROM golang:1.11-alpine
+RUN apk add build-base
 
 # Set maintainer label: maintainer=[YOUR-EMAIL]
 LABEL maintainer="vicioberascher@gmail.com"
