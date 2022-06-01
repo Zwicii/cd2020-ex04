@@ -56,6 +56,7 @@ jobs:
 
       - name: push docker container
         run: |
+          GIT_SHA="$(git rev-parse --short HEAD)" 
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push zwicii/myapp:latest
           docker push zwicii/myapp:$GIT_SHA
